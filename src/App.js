@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import { useState, useEffect } from "react"
+import QuestAns from './components/QandA'
 import './App.css';
 
 function App() {
+  const[question, setQuestion]= useState (null)
+  useEffect(() => {
+    getQuestion()
+  }, [])
+  const getQuestion = async () => {
+    try{
+      const res = await fetch('http://jservice.io/api/random')
+      const data = await res.json()
+      console.log(data);
+      setQuestion(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Welcome to Jeopardy</h1>
+     
+      <QuestAns question={question}/>
     </div>
   );
 }
